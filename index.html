@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+  <meta charset="UTF-8">
+  <title>Rock Paper Scissor</title>
+  <!-- Bootstrap CDN-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <!-- Include link for reset css -->
+  <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+  <!-- Include link for style css -->
+  <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
+</head>
+
+<body>
+  
+  <div class="page-header">
+    <h1>ROCK PAPER SCISSORS</h1>
+  </div>
+
+  <div class="container">
+
+    <div class="row">
+
+      <div class="col-lg-offset-3 col-lg-9">
+
+        <form>
+
+          <div class="form-group">
+
+            <label for="players-name">Name:&nbsp;&nbsp;</label>
+            <input class="form-control" id="players-name" type="text" placeholder="Enter your name">
+
+          </div>
+
+          <button class="btn btn-primary" id="submit-name" type="submit">Start</button>
+
+        </form>    
+
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="col-lg-12">
+            
+        <div class="players" id="player1">
+          
+          <div id="wait1">
+
+            <h3>Waiting for Player 1</h3><br>
+
+          </div>
+
+          <div id="player1-name" style="display:none;">
+
+            <h2><span id="name1"></span></h2>
+
+          </div><br>
+
+          <div id="options1">
+
+            <button id="rock1" type="button" class="btn btn-primary">Rock</button><br><br>
+
+            <button id="paper1" type="button" class="btn btn-primary">Paper</button><br><br>
+
+            <button id="scissor1" type="button" class="btn btn-primary">Scissors</button>
+
+            </div><br><br>
+
+            <div id="results1">
+
+              <h3>Wins :<span id="win1"></span>&nbsp;&nbsp;&nbsp;Losses :<span id="lose1"></span></h3>
+
+            </div>
+
+        </div>
+        
+        <div class="players" id="result">
+          
+          <h3>Results</h3>
+        
+        </div>
+        
+        <div class="players" id="player2">
+        
+          <div id="wait2">
+
+            <h3>Waiting for Player 2</h3><br>
+
+          </div>
+
+          <div id="player2-name" style="display:none;">
+
+            <h2><span id="name2"></span></h2>
+
+          </div><br>
+
+          <div id="options2">
+
+            <button id="rock2" type="button" class="btn btn-primary">Rock</button><br><br>
+
+            <button id="paper2" type="button" class="btn btn-primary">Paper</button><br><br>
+
+            <button id="scissor2" type="button" class="btn btn-primary">Scissors</button>
+
+            </div><br><br>
+
+            <div id="results2">
+
+              <h3>Wins :<span id="win2"></span>&nbsp;&nbsp;&nbsp;Losses :<span id="lose2"></span></h3>
+
+            </div>
+                
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="col-lg-offset-1 col-lg-8">
+
+        <form>
+
+          <div class="form-group">
+
+            <textarea class="form-control" id="chat" rows="10" cols = "10" placeholder="Type here">
+            </textarea><br>
+            <label for="message"></label>
+            <input class="form-control" id="message" type="text" placeholder="Send Message">
+
+          </div>
+
+          <button class="btn btn-primary" id="msg" type="submit">Send</button>
+
+        </form>    
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Firebase Reference -->
+  <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <!-- Script -->
+  <script src="assets/javascript/logic.js"></script>
+
+  
+</body>
+</html>
