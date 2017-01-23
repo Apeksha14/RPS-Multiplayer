@@ -1,135 +1,154 @@
-/* global moment firebase */
-// Initialize Firebase
+// Firebase Config
 var config = {
     
-    apiKey: "AIzaSyAUGUKecUauTUz9s4mxb-o2-HMjIX7L4nE",
-    authDomain: "rockpaper-project.firebaseapp.com",
-    databaseURL: "https://rockpaper-project.firebaseio.com",
-    storageBucket: "rockpaper-project.appspot.com",
-    messagingSenderId: "285353253842"
-};
-
-firebase.initializeApp(config);
-
-// Create a variable to reference the database.
-var database = firebase.database();
-
-// -------------------------------------------------------------- (CRITICAL - BLOCK) --------------------------- //
-// connectionsRef references a specific location in our database.
-// All of our connections will be stored in this directory.
-var connectionsRef = database.ref("/connections");
-
-// '.info/connected' is a special location provided by Firebase that is updated every time
-// the client's connection state changes.
-// '.info/connected' is a boolean value, true if the client is connected and false if they are not.
-var connectedRef = database.ref(".info/connected");
-
-// When the client's connection state changes...
-connectedRef.on("value", function(someoneNew) {
-	//console.log("connectedRef");
-	//console.log(someoneNew.val());
-  // If they are connected..
-  if (someoneNew.val()) {
-
-    // Add user to the connections list.
-    var con = connectionsRef.push(true);
-
-    // Remove user from the connection list when they disconnect.
-    con.onDisconnect().remove();
-  }
-
-});
-
-// When first loaded or when the connections list changes...
-connectionsRef.on("value", function(snap) {
-	//console.log("connectionsRef "+connectionsRef);
-
-  // Display the viewer count in the html.
-  // The number of online users is the number of children in the connections list.
-  $("#click-value").html(snap.numChildren());
-  //console.log(snap.numChildren());
-  $("#name2").text(snap.numChildren());
-  $("#wait2").css("display","none");
-  $("#player2-name").css("display","block");});
-
-// -------------------------------------------------------------- (CRITICAL - BLOCK) --------------------------- //
-// Set Initial Counter
-var initialValue = 100;
-var clickCounter = initialValue;
-
-// At the initial load, get a snapshot of the current data.
-database.ref("players/").on("value", function(snapshot) {
-	
-  console.log("snapshot1 "+ snapshot.val().player1.name);
-
-  $("#player1-name").css("display","block");
-  // Change the html to reflect the initial value.
-  $("#name1").html(snapshot.val().player1.name);
-  $("#wait1").css("display","none");
-
-  // Change the clickcounter to match the data in the database
-  //player1 = snapshot.val().player1;
-
-  // Log the value of the clickCounter
-  //console.log("clickCounter"+clickCounter);
-
-  // Change the HTML Value
-  //$("#click-value").html(clickCounter);
-
-// If any errors are experienced, log them to console.
-}, function(errorObject) {
-  console.log("The read failed: " + errorObject.code);
-});
-
-// --------------------------------------------------------------
-
-// Whenever a user clicks the click-button
-var clickCount = 0;
- 
-$("#submit-name").on("click",function(event,snapshot){
-  // Reduce the clickCounter by 1
-  event.preventDefault();
+    apiKey: "AIzaSyCPNCvz-In9-7bF0Qhnu6Btf1qovMO0FhI",
+    authDomain: "trainscheduler-81113.firebaseapp.com",
+    databaseURL: "https://trainscheduler-81113.firebaseio.com",
+    storageBucket: "trainscheduler-81113.appspot.com",
+    messagingSenderId: "996628885535"
   
-  var player1 = $("#players-name").val().trim();
-  clickCount++;
-  if(clickCount === 2)
-  var player2 = $("#players-name").val().trim();
+  };
 
-  var initialWins = 0;
-  var initialLosses = 0;
+  // Initialize firebase config
+  firebase.initializeApp(config);
 
-  console.log("player1 "+player1);
-  console.log("player2"+player2);
+  // Get a reference to the database service
+  var database = firebase.database();
 
-  $("#name1").text(player1);
-  $("#wait1").css("display","none");
-  $("#player1-name").css("display","block");
-
-	// Save new value to Firebase
+  // onclick event - on Submit add train information to the firebase database
+  $("#add-submit").on("click",function(event){
   
-  database.ref("players/").set({
-    player1:{
-    	name:player1,
-    	wins:0,
-    	losses:0
-	}
-});
+    event.preventDefault();
 
-});
-// Whenever a user clicks the restart button
-/*$("#restart-button").on("click", function() {
+    // Get the train information from the form
+    var trainName = $("#trainName").val().trim();
+    var dest = $("#dest").val().trim();
+    var trainTime = $("#trainTime").val().trim();
+    var frequency = $("#frequency").val().trim();
 
-  // Set the clickCounter back to initialValue
-  clickCounter = initialValue;
+    // clear the input boxes once information in submitted
+    $("#trainName").val("");
+    $("#dest").val("");
+    $("#trainTime").val("");
+    $("#frequency").val("");
 
-  // Save new value to Firebase
-  database.ref("/clicks").set({
-    clickCount: clickCounter
+    // Store the train information to Firebase Database in JSON properties 
+    // trainName,destination,trainTime,frequency
+    database.ref().push({
+      
+      trainName: trainName,
+      destination:dest,
+      trainTime:trainTime,
+      frequency:frequency
+      
+    });
+
   });
 
-  // Log the value of clickCounter
-  console.log(clickCounter);
+ 
+  // .on("child_added") function to retrieve the data from the database (both initially and every time something new is added)
+  // This will then store the data inside the variable "childSnapshot" and runs for every child record in the database.
+  database.ref().on("child_added", function(childSnapshot) {
 
-  // Change the HTML Values
-  $("#click-value").html(clickCounter);
-});*/
+    // retrieve the frequency from the childSnapshot
+    var tFrequency = childSnapshot.val().frequency;
+
+    // retrieve the firstTime from the childSnapshot
+    var firstTime = childSnapshot.val().trainTime;
+    //console.log(firstTime);
+
+    // First Time (pushed back 1 year to make sure it comes before current time)
+    var firstTimeConverted = moment(firstTime, "hh:mm").subtract(1, "years");
+    //console.log(firstTimeConverted);
+
+    // Current Time from moment object
+    var currentTime = moment();
+    //console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
+
+    // Difference between both the times
+    var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+    //console.log("DIFFERENCE IN TIME: " + diffTime);
+
+    // Time apart in minutes (remainder)
+    var tRemainder = diffTime % tFrequency;
+    //console.log(tRemainder);
+
+    // Minutes Until the Next Train
+    var tMinutesTillTrain = tFrequency - tRemainder;
+    //console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
+
+    // Next Train Arrival time
+    var nextTrain = moment().add(tMinutesTillTrain, "minutes");
+    //console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+
+    // Display all the train information in the result table
+    $(".table").append("<tr class='table-rows'><td> " + 
+      childSnapshot.val().trainName +"</td> <td>" + 
+      childSnapshot.val().destination +" </td><td>"+
+      childSnapshot.val().frequency+"</td><td>"+
+      (moment(nextTrain).format("hh:mm A"))+"</td><td>"+
+      tMinutesTillTrain+"</td></tr>");
+
+    },
+    //If there is an error that Firebase runs into -- it will be stored in the "errorObject"
+    function(errorObject) {
+
+      // In case of error this will print the error
+      console.log("The read failed: " + errorObject.code);
+    });
+
+  //Onclick of Clear button ,clear the form
+  $("#clear").on("click",function(){
+
+    $("#trainName").val("");
+    $("#dest").val("");
+    $("#trainTime").val("");
+    $("#frequency").val("");
+
+  });
+
+
+  // Display current day,date and time 
+  tday=new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
+  tmonth=new Array("January","February","March","April","May","June","July","August","September","October","November","December");
+
+  function GetClock(){
+    
+    var d=new Date();
+    var nday=d.getDay(),nmonth=d.getMonth(),ndate=d.getDate(),nyear=d.getYear();
+    if(nyear<1000) nyear+=1900;
+    var nhour=d.getHours(),nmin=d.getMinutes(),nsec=d.getSeconds(),ap;
+
+    if(nhour==0)
+      {
+        ap=" AM";
+        nhour=12;
+      }
+      else if(nhour<12)
+        {
+          ap=" AM";
+        }
+        else if(nhour==12)
+          {
+            ap=" PM";
+          }
+          else if(nhour>12)
+            {
+              ap=" PM";
+              nhour-=12;
+            }
+
+    if(nmin<=9) nmin="0"+nmin;
+    if(nsec<=9) nsec="0"+nsec;
+
+    document.getElementById('clockbox').innerHTML=""+tday[nday]+", "+tmonth[nmonth]+" "+ndate+", "+nyear+" "+nhour+":"+nmin+":"+nsec+ap+"";
+  }
+
+    window.onload=function(){
+
+      GetClock();
+      setInterval(GetClock,1000);
+    
+    }
+
+ 

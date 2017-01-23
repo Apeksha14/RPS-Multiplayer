@@ -1,159 +1,133 @@
 <!DOCTYPE html>
 <html lang="en-us">
+  <head>
 
-<head>
+    <title>TRAINS!! TRAINS!!</title>
+    <link type="text/image" rel="icon" href="https://s-media-cache-ak0.pinimg.com/originals/a8/92/eb/a892eb8185c79605602606c6d280fce8.gif" />
+    <!-- Bootstrap CDN -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Anton|Bree+Serif" rel="stylesheet">
+    <!-- Custom stylesheet -->
+    <link href="assets/css/style.css" rel="stylesheet">
 
-  <meta charset="UTF-8">
-  <title>Rock Paper Scissor</title>
-  <!-- Bootstrap CDN-->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <!-- Include link for reset css -->
-  <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
-  <!-- Include link for style css -->
-  <link rel="stylesheet" type="text/css" href="assets/css/style.css">
-
-</head>
-
-<body>
+  </head>
+  <body>
   
-  <div class="page-header">
-    <h1>ROCK PAPER SCISSORS</h1>
-  </div>
-
-  <div class="container">
-
-    <div class="row">
-
-      <div class="col-lg-offset-3 col-lg-9">
-
-        <form>
-
-          <div class="form-group">
-
-            <label for="players-name">Name:&nbsp;&nbsp;</label>
-            <input class="form-control" id="players-name" type="text" placeholder="Enter your name">
-
-          </div>
-
-          <button class="btn btn-primary" id="submit-name" type="submit">Start</button>
-
-        </form>    
-
-      </div>
-
-    </div>
-
-    <div class="row">
-
-      <div class="col-lg-12">
-            
-        <div class="players" id="player1">
+  <div class="container">  <!-- title container -->
+    
+    <div class="row">  <!-- top row -->
+       
+        <div class="jumbotron header">
           
-          <div id="wait1">
+          <div class="page-header mainhead">
+          
+            <span>
+              <img class="img-circle" id="logo" src="https://3dfoodprintingconference.com/wp-content/uploads/2016/02/Train-Icon.png">
+              <h1>TRAIN SCHEDULES</h1>
+            </span>
 
-            <h3>Waiting for Player 1</h3><br>
-
-          </div>
-
-          <div id="player1-name" style="display:none;">
-
-            <h2><span id="name1"></span></h2>
-
-          </div><br>
-
-          <div id="options1">
-
-            <button id="rock1" type="button" class="btn btn-primary">Rock</button><br><br>
-
-            <button id="paper1" type="button" class="btn btn-primary">Paper</button><br><br>
-
-            <button id="scissor1" type="button" class="btn btn-primary">Scissors</button>
-
-            </div><br><br>
-
-            <div id="results1">
-
-              <h3>Wins :<span id="win1"></span>&nbsp;&nbsp;&nbsp;Losses :<span id="lose1"></span></h3>
-
+            <div class="wrapper">
+              <div class="train"></div>
+              <div class="rails"></div>
+              <div class="background"></div>
             </div>
 
-        </div>
+          </div>  <!-- end page-header -->
+
+        </div> <!-- end jumbotron -->
+     
+     </div>  <!-- end top row -->
+  
+  </div> <!-- end title container -->
+  
+  <div class="container" id="results"> <!-- result container -->
+      
+    <div class="panel panel-primary resultcont">
         
-        <div class="players" id="result">
+      <div class="panel-heading heading">Current Train Schedule <span id="clockbox"></span></div>
+
+        <div class="panel-body table-responsive" id="results-panel">
           
-          <h3>Results</h3>
-        
+          <!-- Result Table-->
+          <table class="table table-bordered table-striped"> 
+
+            <thead>
+              <th>#Train Name</th>
+              <th>#Destination</th>
+              <th>#Frequency(min)</th>
+              <th>#Next Arrival</th>
+              <th>#Minutes Away</th>
+            </thead>
+
+          </table>
+
         </div>
         
-        <div class="players" id="player2">
+      </div>
+
+    </div> <!-- end panel -->
+  
+  </div>  <!-- end result container -->
+
+  <div class="container" id="results"> <!-- Train information container start -->
+
+    <div class="panel panel-primary resultcont" id="search">
+      
+      <div class="panel-heading heading">Add Train Information</div> 
         
-          <div id="wait2">
+        <div class="panel-body panel-form">  <!-- start panel-form -->
+  
+          <form id="myform"> <!-- Form start -->
+  
+            <div class="question">
+              
+              <label>Train Name</label>
+              <input type="text" class="form-control" name="term" id="trainName" required="">
+    
+            </div><br>
 
-            <h3>Waiting for Player 2</h3><br>
+            <div class="question">
+              
+              <label>Destination</label>
+              <input type="text" class="form-control" name="term" id="dest" required>
+    
+            </div><br>
+  
+            <div class="question">
+              
+              <label>First Train Time(hh:mm)</label>
+              <input type="text" class="form-control" name="term" id="trainTime" required>
+    
+            </div><br>
+  
+            <div class="question">
 
-          </div>
-
-          <div id="player2-name" style="display:none;">
-
-            <h2><span id="name2"></span></h2>
-
-          </div><br>
-
-          <div id="options2">
-
-            <button id="rock2" type="button" class="btn btn-primary">Rock</button><br><br>
-
-            <button id="paper2" type="button" class="btn btn-primary">Paper</button><br><br>
-
-            <button id="scissor2" type="button" class="btn btn-primary">Scissors</button>
-
-            </div><br><br>
-
-            <div id="results2">
-
-              <h3>Wins :<span id="win2"></span>&nbsp;&nbsp;&nbsp;Losses :<span id="lose2"></span></h3>
-
+              <label>Frequency(mins)</label>
+              <input type="text" class="form-control" id="frequency" required>
+    
             </div>
-                
-        </div>
-
-      </div>
-
-    </div>
-
-    <div class="row">
-
-      <div class="col-lg-offset-1 col-lg-8">
-
-        <form>
-
-          <div class="form-group">
-
-            <textarea class="form-control" id="chat" rows="10" cols = "10" placeholder="Type here">
-            </textarea><br>
-            <label for="message"></label>
-            <input class="form-control" id="message" type="text" placeholder="Send Message">
-
-          </div>
-
-          <button class="btn btn-primary" id="msg" type="submit">Send</button>
-
-        </form>    
-
-      </div>
+  
+            <button id="add-submit">Submit</button>
+            <button id="clear">Clear</button>
+          
+          </form> <!-- End form -->
+        
+        </div> <!-- End panel-form -->
 
     </div>
 
-  </div>
+  </div> <!-- Train information container end -->
 
-  <!-- Firebase Reference -->
+  <!-- Firebase script -->
   <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-  <!-- Script -->
+  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <!-- Moment js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
+  <!-- Logic Js -->
   <script src="assets/javascript/logic.js"></script>
 
-  
 </body>
 </html>
